@@ -812,7 +812,7 @@
       }
 
       function veCuoi(qr) {
-        var le = 78, qrKt = 282, qrY = H - 236 - qrKt;
+        var le = 78, qrKt = 330, qrY = H - 210 - qrKt;
 
         /* nhan tren QR */
         dat('500 22px ' + SANS, '#ffffff', 0.95);
@@ -824,29 +824,31 @@
         if (qr) {
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(le, qrY, qrKt, qrKt);
-          ctx.drawImage(qr, le + 26, qrY + 26, qrKt - 52, qrKt - 52);
+          ctx.drawImage(qr, le + 24, qrY + 24, qrKt - 48, qrKt - 48);
         }
 
         /* loi cam on ben phai QR */
         var xp = le + qrKt + 54;
         dat('500 23px ' + SANS, '#ffffff', 0.95);
-        ctx.fillText('THANK YOU FOR BEING A PART', xp, qrY + 84);
-        ctx.fillText('OF OUR SPECIAL DAY!', xp, qrY + 114);
+        ctx.fillText('THANK YOU FOR BEING A PART', xp, qrY + 104);
+        ctx.fillText('OF OUR SPECIAL DAY!', xp, qrY + 138);
 
         dat('italic 30px ' + SERIF, '#ffffff', 0.95);
-        ctx.fillText('with love,', xp, qrY + 172);
+        ctx.fillText('with love,', xp, qrY + 200);
 
         dat('italic 52px ' + VIET, VANG, 1);
-        ctx.fillText(tenCap, xp, qrY + 226);
+        ctx.fillText(tenCap, xp, qrY + 262);
 
         /* duong ke vang + credit */
         ctx.globalAlpha = 0.5; ctx.strokeStyle = VANG; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(le, H - 108); ctx.lineTo(W - le, H - 108); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(le, H - 104); ctx.lineTo(W - le, H - 104); ctx.stroke();
 
-        dat('500 21px ' + SANS, '#ffffff', 0.92);
+        dat('500 15px ' + SANS, '#ffffff', 0.82);
         ctx.textAlign = 'left';
-        veGian('DESIGNED BY NUPAKACHI WEDDING', W / 2, H - 60, 6);
-        ctx.globalAlpha = 1;
+        veGian('WEDDING INVITATION BY NUPAKACHI WEDDING & DOLINHANH BRIDAL', W / 2, H - 68, 3);
+        dat('500 14px ' + SANS, '#ffffff', 0.68);
+        veGian('A DESIGN GIFT FOR OUR COUPLES', W / 2, H - 42, 3);
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0;
       }
 
       function xong(coQR) {
@@ -865,12 +867,22 @@
       var anhBia = document.querySelector('.hero-photo');
       function batDau() {
         veNen(anhBia && anhBia.naturalWidth ? anhBia : null);
-        var qr = new Image();
-        qr.crossOrigin = 'anonymous';
-        qr.onload = function () { veCuoi(qr); xong(true); };
-        qr.onerror = function () { veCuoi(null); xong(false); };
-        qr.src = 'https://api.qrserver.com/v1/create-qr-code/?margin=0&size=600x600&data='
-               + encodeURIComponent(linkThiep);
+        /* Hai nguon ma QR: nguon chinh hong (mang yeu, bi chan) thi thu nguon
+           du phong. Ca hai deu tra header CORS nen canvas khong bi taint. */
+        var nguon = [
+          'https://api.qrserver.com/v1/create-qr-code/?margin=0&size=600x600&data=',
+          'https://quickchart.io/qr?margin=1&size=600&text='
+        ];
+        var k = 0;
+        function thuQR() {
+          if (k >= nguon.length) { veCuoi(null); xong(false); return; }
+          var qr = new Image();
+          qr.crossOrigin = 'anonymous';
+          qr.onload = function () { veCuoi(qr); xong(true); };
+          qr.onerror = function () { k++; thuQR(); };
+          qr.src = nguon[k] + encodeURIComponent(linkThiep);
+        }
+        thuQR();
       }
       if (anhBia && !anhBia.complete) {
         anhBia.addEventListener('load', batDau);
