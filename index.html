@@ -823,9 +823,13 @@
 
         ctx.globalAlpha = 1; ctx.shadowBlur = 0;
         if (qr) {
+          /* Vien trang nho het co (chi Linh chot 16/08/2026): KHONG ve them
+             khung trang bao ngoai nua. Anh QR tu API da co san vung trang
+             margin=4 module — do la vien toi thieu de may quet nhan duoc.
+             Bo not vung do la ma khong quet duoc. */
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(le, qrY, qrKt, qrKt);
-          ctx.drawImage(qr, le + 24, qrY + 24, qrKt - 48, qrKt - 48);
+          ctx.drawImage(qr, le, qrY, qrKt, qrKt);
         }
 
         /* loi cam on ben phai QR */
