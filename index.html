@@ -840,14 +840,17 @@
         ctx.fillText(tenCap, xp, qrY + 262);
 
         /* duong ke vang + credit */
-        ctx.globalAlpha = 0.5; ctx.strokeStyle = VANG; ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.22; ctx.strokeStyle = VANG; ctx.lineWidth = 1; ctx.shadowBlur = 0;
         ctx.beginPath(); ctx.moveTo(le, H - 104); ctx.lineTo(W - le, H - 104); ctx.stroke();
 
-        dat('500 15px ' + SANS, '#ffffff', 0.82);
-        ctx.textAlign = 'left';
-        veGian('WEDDING INVITATION BY NUPAKACHI WEDDING & DOLINHANH BRIDAL', W / 2, H - 68, 3);
-        dat('500 14px ' + SANS, '#ffffff', 0.68);
-        veGian('A DESIGN GIFT FOR OUR COUPLES', W / 2, H - 42, 3);
+        /* Credit: chi Linh chot phai RAT NHO va MO — chi de nhan ra thuong hieu,
+           khong duoc hut mat khoi ten co dau chu re. */
+        dat('400 11px ' + SANS, '#ffffff', 0.42);
+        ctx.textAlign = 'left'; ctx.shadowBlur = 0;
+        veGian('WEDDING INVITATION BY NUPAKACHI WEDDING & DOLINHANH BRIDAL', W / 2, H - 62, 2);
+        dat('400 10px ' + SANS, '#ffffff', 0.34);
+        ctx.shadowBlur = 0;
+        veGian('A DESIGN GIFT FOR OUR COUPLES', W / 2, H - 40, 2);
         ctx.globalAlpha = 1; ctx.shadowBlur = 0;
       }
 
